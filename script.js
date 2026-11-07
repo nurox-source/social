@@ -2,7 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
   authDomain: "social-app-6cffa.firebaseapp.com",
@@ -13,27 +12,37 @@ const firebaseConfig = {
   measurementId: "G-NKQ7VWR565"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// 1. Loading Screen Handler
+// DOM Loaded & Event Listeners Binding
 window.addEventListener('DOMContentLoaded', () => {
+  // Loading Screen Timer
   setTimeout(() => {
     const loadingScreen = document.getElementById('loading-screen');
     const authWrapper = document.getElementById('auth-wrapper');
 
     loadingScreen.style.opacity = '0';
-    
     setTimeout(() => {
       loadingScreen.classList.add('hidden');
       authWrapper.classList.remove('hidden');
     }, 800);
   }, 2200);
+
+  // Bind Tab Switch Buttons dynamically (HTML-এর onclick ঝামেলার সমাধান)
+  document.getElementById('tab-register').addEventListener('click', () => switchForm('register'));
+  document.getElementById('tab-login').addEventListener('click', () => switchForm('login'));
+
+  // Bind Google Sign-In Button dynamically
+  document.getElementById('google-btn').addEventListener('click', signInWithGoogle);
+
+  // Bind Form Submits
+  document.getElementById('login-form').addEventListener('submit', onLoginSubmit);
+  document.getElementById('register-form').addEventListener('submit', onRegisterSubmit);
 });
 
-// 2. Custom Alert Box Function
+// Custom Alert Box Function
 function showAlert(message, type = 'info') {
   const alertBox = document.getElementById('alert-box');
   const alertMsg = document.getElementById('alert-message');
@@ -47,7 +56,7 @@ function showAlert(message, type = 'info') {
   }, 3000);
 }
 
-// 3. Tab Switcher
+// Tab Switcher Logic
 function switchForm(tabName) {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
@@ -67,7 +76,7 @@ function switchForm(tabName) {
   }
 }
 
-// 4. Form Submit Logic (Firebase Auth Integration)
+// Form Submits
 function onLoginSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('login-email').value;
@@ -78,7 +87,6 @@ function onLoginSubmit(event) {
   signInWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       showAlert('Login successful! Redirecting...', 'success');
-      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
@@ -108,7 +116,7 @@ function onRegisterSubmit(event) {
     });
 }
 
-// 5. Google Sign-In Trigger Function
+// Google Sign-In Function
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
   
@@ -116,16 +124,9 @@ function signInWithGoogle() {
     .then((result) => {
       const user = result.user;
       showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
-      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
     })
     .catch((error) => {
       showAlert('Google Authentication Failed!', 'error');
       console.error(error);
     });
 }
-
-// Make functions globally available for HTML inline events
-window.switchForm = switchForm;
-window.onLoginSubmit = onLoginSubmit;
-window.onRegisterSubmit = onRegisterSubmit;
-window.signInWithGoogle = signInWithGoogle;
