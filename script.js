@@ -1,15 +1,16 @@
-// Firebase SDK Imports (ES Module)
+// Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+// আপনার ফায়ারবেস প্রজেক্টের রিয়েল কনফিগারেশন এখানে বসাবেন (কনসোল থেকে কপি করে)
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHWkOfaTuzl-e3a0l3ATxZxCBMjQfo",
+  apiKey: "আপনার_ফায়ারবেস_কনসোল_থেকে_আনা_সঠিক_API_Key_এখানে_দিন",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
-  storageBucket: "social-app-6cffa.firebasestorage.app",
+  storageBucket: "social-app-6cffa.appspot.com",
   messagingSenderId: "880716821433",
-  appId: "1:880716821433:web:714ee9a6df235643527c68",
-  measurementId: "G-NKQ7VWRS65"
+  appId: "1:880716821433:web:714ce9a6df235643527c68",
+  measurementId: "G-NKQ7VWR565"
 };
 
 const app = initializeApp(firebaseConfig);
