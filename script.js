@@ -1,3 +1,23 @@
+// Firebase SDK Imports (ES Module)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  authDomain: "social-app-6cffa.firebaseapp.com",
+  projectId: "social-app-6cffa",
+  storageBucket: "social-app-6cffa.appspot.com",
+  messagingSenderId: "880716821433",
+  appId: "1:880716821433:web:714ce9a6df235643527c68",
+  measurementId: "G-NKQ7VWR565"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
 // 1. Loading Screen Handler
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
@@ -28,7 +48,7 @@ function showAlert(message, type = 'info') {
   }, 3000);
 }
 
-// 3.Tab Switcher (Register Default)
+// 3. Tab Switcher (Register Default)
 function switchForm(tabName) {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
@@ -51,7 +71,6 @@ function switchForm(tabName) {
 // 4. Form Submit Logic with Custom Alerts
 function onLoginSubmit(event) {
   event.preventDefault();
-  const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
 
   if (pass.length < 6) {
@@ -77,32 +96,7 @@ function onRegisterSubmit(event) {
   switchForm('login');
 }
 
-// 5. Google Sign-In Click Trigger
-function signInWithGoogle() {
-  showAlert('Connecting to Google Sign-In...', 'info');
-  // Backend Integration Code goes here
-}
-// Firebase SDK Imports (ES Module)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-// Your web app's Firebase configuration (Firebase কনসোল থেকে পাওয়া)
-const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
-  authDomain: "social-app-6cffa.firebaseapp.com",
-  projectId: "social-app-6cffa",
-  storageBucket: "social-app-6cffa.appspot.com",
-  messagingSenderId: "880716821433",
-  appId: "1:880716821433:web:714ce9a6df235643527c68",
-  measurementId: "G-NKQ7VWR565"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-// Google Sign-In Trigger Function
+// 5. Google Sign-In Trigger Function (এক্টিভ ও সিঙ্গেল)
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
   
