@@ -28,14 +28,14 @@
       <h1 class="brand-logo">SOCIAL</h1>
       <p class="brand-tagline">Connect with the world</p>
 
-      <!-- Toggle Buttons (Register First) -->
+      <!-- Toggle Buttons (কোনো onclick নেই) -->
       <div class="tab-switch">
-        <button id="tab-register" class="active" onclick="switchForm('register')">Register</button>
-        <button id="tab-login" onclick="switchForm('login')">Login</button>
+        <button id="tab-register" class="active">Register</button>
+        <button id="tab-login">Login</button>
       </div>
 
-      <!-- Register Form (Default Visible) -->
-      <form id="register-form" class="form-content" onsubmit="onRegisterSubmit(event)">
+      <!-- Register Form -->
+      <form id="register-form" class="form-content">
         <h2>Create Account</h2>
         <div class="input-field">
           <input type="text" id="reg-name" placeholder="Full Name" required>
@@ -52,8 +52,8 @@
         <button type="submit" class="action-btn">Register</button>
       </form>
 
-      <!-- Login Form (Initially Hidden) -->
-      <form id="login-form" class="form-content hidden" onsubmit="onLoginSubmit(event)">
+      <!-- Login Form -->
+      <form id="login-form" class="form-content hidden">
         <h2>Welcome Back</h2>
         <div class="input-field">
           <input type="email" id="login-email" placeholder="Email Address" required>
@@ -68,7 +68,7 @@
       <div class="divider">
         <span>OR</span>
       </div>
-      <button class="google-btn" onclick="signInWithGoogle()">
+      <button class="google-btn" id="google-btn" type="button">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
         Continue with Google
       </button>
