@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOCIAL - Register & Login</title>
-  <!-- Single Common Style File -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Opening Animation Screen -->
+  <!-- 1. Opening Animation Screen -->
   <div id="loading-screen">
     <div class="loader-content">
       <div class="glow-ring"></div>
@@ -18,7 +17,12 @@
     </div>
   </div>
 
-  <!-- Main Auth Box -->
+  <!-- 2. Custom Central Alert/Toast Notification Box -->
+  <div id="alert-box" class="alert-box hidden">
+    <span id="alert-message">This is a message</span>
+  </div>
+
+  <!-- 3. Main Auth Wrapper -->
   <div class="auth-wrapper hidden" id="auth-wrapper">
     <div class="auth-card">
       <h1 class="brand-logo">SOCIAL</h1>
@@ -34,10 +38,10 @@
       <form id="login-form" class="form-content" onsubmit="onLoginSubmit(event)">
         <h2>Welcome Back</h2>
         <div class="input-field">
-          <input type="email" placeholder="Email Address" required>
+          <input type="email" id="login-email" placeholder="Email Address" required>
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" required>
+          <input type="password" id="login-password" placeholder="Password" required>
         </div>
         <button type="submit" class="action-btn">Login</button>
       </form>
@@ -46,24 +50,32 @@
       <form id="register-form" class="form-content hidden" onsubmit="onRegisterSubmit(event)">
         <h2>Create Account</h2>
         <div class="input-field">
-          <input type="text" placeholder="Full Name" required>
+          <input type="text" id="reg-name" placeholder="Full Name" required>
         </div>
         <div class="input-field">
-          <input type="email" placeholder="Email Address" required>
+          <input type="email" id="reg-email" placeholder="Email Address" required>
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" required>
+          <input type="password" id="reg-password" placeholder="Password" required>
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Confirm Password" required>
+          <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
         </div>
         <button type="submit" class="action-btn">Register</button>
       </form>
 
+      <!-- Google Sign-In Button Placeholder -->
+      <div class="divider">
+        <span>OR</span>
+      </div>
+      <button class="google-btn" onclick="signInWithGoogle()">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
+        Continue with Google
+      </button>
+
     </div>
   </div>
 
-  <!-- Single Common Script File -->
   <script src="script.js"></script>
 </body>
 </html>
