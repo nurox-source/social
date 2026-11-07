@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- 1. Opening Animation Screen -->
+  <!-- Loading Animation Screen -->
   <div id="loading-screen">
     <div class="loader-content">
       <div class="glow-ring"></div>
@@ -17,37 +17,25 @@
     </div>
   </div>
 
-  <!-- 2. Custom Central Alert/Toast Notification Box -->
+  <!-- Custom Central Alert Box -->
   <div id="alert-box" class="alert-box hidden">
-    <span id="alert-message">This is a message</span>
+    <span id="alert-message"></span>
   </div>
 
-  <!-- 3. Main Auth Wrapper -->
+  <!-- Auth Card -->
   <div class="auth-wrapper hidden" id="auth-wrapper">
     <div class="auth-card">
       <h1 class="brand-logo">SOCIAL</h1>
       <p class="brand-tagline">Connect with the world</p>
 
-      <!-- Toggle Buttons -->
+      <!-- Toggle Buttons (Register First) -->
       <div class="tab-switch">
-        <button id="tab-login" class="active" onclick="switchForm('login')">Login</button>
-        <button id="tab-register" onclick="switchForm('register')">Register</button>
+        <button id="tab-register" class="active" onclick="switchForm('register')">Register</button>
+        <button id="tab-login" onclick="switchForm('login')">Login</button>
       </div>
 
-      <!-- Login Form -->
-      <form id="login-form" class="form-content" onsubmit="onLoginSubmit(event)">
-        <h2>Welcome Back</h2>
-        <div class="input-field">
-          <input type="email" id="login-email" placeholder="Email Address" required>
-        </div>
-        <div class="input-field">
-          <input type="password" id="login-password" placeholder="Password" required>
-        </div>
-        <button type="submit" class="action-btn">Login</button>
-      </form>
-
-      <!-- Register Form -->
-      <form id="register-form" class="form-content hidden" onsubmit="onRegisterSubmit(event)">
+      <!-- Register Form (Default Visible) -->
+      <form id="register-form" class="form-content" onsubmit="onRegisterSubmit(event)">
         <h2>Create Account</h2>
         <div class="input-field">
           <input type="text" id="reg-name" placeholder="Full Name" required>
@@ -64,7 +52,19 @@
         <button type="submit" class="action-btn">Register</button>
       </form>
 
-      <!-- Google Sign-In Button Placeholder -->
+      <!-- Login Form (Initially Hidden) -->
+      <form id="login-form" class="form-content hidden" onsubmit="onLoginSubmit(event)">
+        <h2>Welcome Back</h2>
+        <div class="input-field">
+          <input type="email" id="login-email" placeholder="Email Address" required>
+        </div>
+        <div class="input-field">
+          <input type="password" id="login-password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="action-btn">Login</button>
+      </form>
+
+      <!-- Google Sign-In Button -->
       <div class="divider">
         <span>OR</span>
       </div>
