@@ -28,23 +28,23 @@ function showAlert(message, type = 'info') {
   }, 3000);
 }
 
-// 3. Tab Switcher Logic
+// 3.Tab Switcher (Register Default)
 function switchForm(tabName) {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   const tabLogin = document.getElementById('tab-login');
   const tabRegister = document.getElementById('tab-register');
 
-  if (tabName === 'login') {
-    loginForm.classList.remove('hidden');
-    registerForm.classList.add('hidden');
-    tabLogin.classList.add('active');
-    tabRegister.classList.remove('active');
-  } else {
+  if (tabName === 'register') {
     registerForm.classList.remove('hidden');
     loginForm.classList.add('hidden');
     tabRegister.classList.add('active');
     tabLogin.classList.remove('active');
+  } else {
+    loginForm.classList.remove('hidden');
+    registerForm.classList.add('hidden');
+    tabLogin.classList.add('active');
+    tabRegister.classList.remove('active');
   }
 }
 
