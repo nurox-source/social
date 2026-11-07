@@ -1,10 +1,16 @@
 // Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { 
+  getAuth, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// আপনার ফায়ারবেস প্রজেক্টের রিয়েল কনফিগারেশন এখানে বসাবেন (কনসোল থেকে কপি করে)
 const firebaseConfig = {
-  apiKey: "আপনার_ফায়ারবেস_কনসোল_থেকে_আনা_সঠিক_API_Key_এখানে_দিন",
+  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
   storageBucket: "social-app-6cffa.appspot.com",
@@ -17,36 +23,51 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// DOM Loaded & Event Listeners Binding
+// Check if user is already logged in (Auto-login / Session save)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // যদি অলമേডি লগইন করা থাকে, তবে সরাসরি main.html এ পাঠিয়ে দিবে (যাতে বারবার লগইন না করতে হয়)
+    if (window.location.pathname.includes('rglg.html') || window.location.pathname.endsWith('/')) {
+      window.location.href = 'main.html';
+    }
+  }
+});
+
+// DOM Loaded & Event Listeners
 window.addEventListener('DOMContentLoaded', () => {
-  // Loading Screen Timer
   setTimeout(() => {
     const loadingScreen = document.getElementById('loading-screen');
     const authWrapper = document.getElementById('auth-wrapper');
 
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-      loadingScreen.classList.add('hidden');
-      authWrapper.classList.remove('hidden');
-    }, 800);
+    if (loadingScreen && authWrapper) {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        authWrapper.classList.remove('hidden');
+      }, 800);
+    }
   }, 2200);
 
-  // Bind Tab Switch Buttons dynamically (HTML-এর onclick ঝামেলার সমাধান)
-  document.getElementById('tab-register').addEventListener('click', () => switchForm('register'));
-  document.getElementById('tab-login').addEventListener('click', () => switchForm('login'));
+  const tabRegister = document.getElementById('tab-register');
+  const tabLogin = document.getElementById('tab-login');
+  if (tabRegister) tabRegister.addEventListener('click', () => switchForm('register'));
+  if (tabLogin) tabLogin.addEventListener('click', () => switchForm('login'));
 
-  // Bind Google Sign-In Button dynamically
-  document.getElementById('google-btn').addEventListener('click', signInWithGoogle);
+  const googleBtn = document.getElementById('google-btn');
+  if (googleBtn) googleBtn.addEventListener('click', signInWithGoogle);
 
-  // Bind Form Submits
-  document.getElementById('login-form').addEventListener('submit', onLoginSubmit);
-  document.getElementById('register-form').addEventListener('submit', onRegisterSubmit);
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) loginForm.addEventListener('submit', onLoginSubmit);
+
+  const registerForm = document.getElementById('register-form');
+  if (registerForm) registerForm.addEventListener('submit', onRegisterSubmit);
 });
 
 // Custom Alert Box Function
 function showAlert(message, type = 'info') {
   const alertBox = document.getElementById('alert-box');
   const alertMsg = document.getElementById('alert-message');
+  if (!alertBox || !alertMsg) return;
 
   alertMsg.innerText = message;
   alertBox.className = `alert-box ${type}`;
@@ -64,20 +85,22 @@ function switchForm(tabName) {
   const tabLogin = document.getElementById('tab-login');
   const tabRegister = document.getElementById('tab-register');
 
+  if (!loginForm || !registerForm) return;
+
   if (tabName === 'register') {
     registerForm.classList.remove('hidden');
     loginForm.classList.add('hidden');
-    tabRegister.classList.add('active');
-    tabLogin.classList.remove('active');
+    if (tabRegister) tabRegister.classList.add('active');
+    if (tabLogin) tabLogin.classList.remove('active');
   } else {
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
-    tabLogin.classList.add('active');
-    tabRegister.classList.remove('active');
+    if (tabLogin) tabLogin.classList.add('active');
+    if (tabRegister) tabRegister.classList.remove('active');
   }
 }
 
-// Form Submits
+// Login Submit Logic
 function onLoginSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('login-email').value;
@@ -86,14 +109,16 @@ function onLoginSubmit(event) {
   showAlert('Logging in...', 'info');
 
   signInWithEmailAndPassword(auth, email, pass)
-    .then((userCredential) => {
+    .then((result) => {
       showAlert('Login successful! Redirecting...', 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
     });
 }
 
+// Register Submit Logic
 function onRegisterSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('reg-email').value;
@@ -108,9 +133,9 @@ function onRegisterSubmit(event) {
   showAlert('Creating account...', 'info');
 
   createUserWithEmailAndPassword(auth, email, pass)
-    .then((userCredential) => {
-      showAlert('Registration successful! Please login.', 'success');
-      switchForm('login');
+    .then((result) => {
+      showAlert('Registration successful! Redirecting...', 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
@@ -125,6 +150,7 @@ function signInWithGoogle() {
     .then((result) => {
       const user = result.user;
       showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
     })
     .catch((error) => {
       showAlert('Google Authentication Failed!', 'error');
