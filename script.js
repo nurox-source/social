@@ -3,13 +3,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  apiKey: "AIzaSyBeHQHWkOfaTuzl-e3a0l3ATxZxCBMjQfo",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
-  storageBucket: "social-app-6cffa.appspot.com",
+  storageBucket: "social-app-6cffa.firebasestorage.app",
   messagingSenderId: "880716821433",
-  appId: "1:880716821433:web:714ce9a6df235643527c68",
-  measurementId: "G-NKQ7VWR565"
+  appId: "1:880716821433:web:714ee9a6df235643527c68",
+  measurementId: "G-NKQ7VWRS65"
 };
 
 const app = initializeApp(firebaseConfig);
