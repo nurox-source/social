@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOCIAL - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="auth-wrapper" style="text-align: center;">
+    <div class="auth-card">
+      <h1 class="brand-logo">Welcome!</h1>
+      <p class="brand-tagline" id="user-email">You are successfully logged in.</p>
+      
+      <button id="logout-btn" class="action-btn" style="margin-top: 20px; background: #ef4444; color: white;">Logout</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"; // Note: auth module path
+    // অথবা আপনার script.js এর মতো কমন ফায়ারবেস ইনস্ট্যান্স এখানেও ইম্পোর্ট করতে পারেন।
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
