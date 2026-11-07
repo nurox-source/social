@@ -1,6 +1,6 @@
 // Firebase SDK Imports (ES Module)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 2200);
 });
 
-// 2. Custom Alert Box Function (Replaces alert())
+// 2. Custom Alert Box Function
 function showAlert(message, type = 'info') {
   const alertBox = document.getElementById('alert-box');
   const alertMsg = document.getElementById('alert-message');
@@ -42,13 +42,12 @@ function showAlert(message, type = 'info') {
   alertBox.className = `alert-box ${type}`;
   alertBox.classList.remove('hidden');
 
-  // Auto Hide after 3 Seconds
   setTimeout(() => {
     alertBox.classList.add('hidden');
   }, 3000);
 }
 
-// 3. Tab Switcher (Register Default)
+// 3. Tab Switcher
 function switchForm(tabName) {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
@@ -68,22 +67,27 @@ function switchForm(tabName) {
   }
 }
 
-// 4. Form Submit Logic with Custom Alerts
+// 4. Form Submit Logic (Firebase Auth Integration)
 function onLoginSubmit(event) {
   event.preventDefault();
+  const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
 
-  if (pass.length < 6) {
-    showAlert('Password must be at least 6 characters long!', 'error');
-    return;
-  }
+  showAlert('Logging in...', 'info');
 
-  showAlert('Login successful! Redirecting...', 'success');
-  // Next Step: Redirect to chat.html
+  signInWithEmailAndPassword(auth, email, pass)
+    .then((userCredential) => {
+      showAlert('Login successful! Redirecting...', 'success');
+      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
+    })
+    .catch((error) => {
+      showAlert(error.message, 'error');
+    });
 }
 
 function onRegisterSubmit(event) {
   event.preventDefault();
+  const email = document.getElementById('reg-email').value;
   const pass = document.getElementById('reg-password').value;
   const confirmPass = document.getElementById('reg-confirm-password').value;
 
@@ -92,11 +96,19 @@ function onRegisterSubmit(event) {
     return;
   }
 
-  showAlert('Registration successful! Please login.', 'success');
-  switchForm('login');
+  showAlert('Creating account...', 'info');
+
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then((userCredential) => {
+      showAlert('Registration successful! Please login.', 'success');
+      switchForm('login');
+    })
+    .catch((error) => {
+      showAlert(error.message, 'error');
+    });
 }
 
-// 5. Google Sign-In Trigger Function (এক্টিভ ও সিঙ্গেল)
+// 5. Google Sign-In Trigger Function
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
   
@@ -104,8 +116,6 @@ function signInWithGoogle() {
     .then((result) => {
       const user = result.user;
       showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
-      
-      // সফলভাবে লগইন হওয়ার পর চ্যাট পেজে পাঠাতে চাইলে:
       // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
     })
     .catch((error) => {
@@ -113,3 +123,9 @@ function signInWithGoogle() {
       console.error(error);
     });
 }
+
+// Make functions globally available for HTML inline events
+window.switchForm = switchForm;
+window.onLoginSubmit = onLoginSubmit;
+window.onRegisterSubmit = onRegisterSubmit;
+window.signInWithGoogle = signInWithGoogle;
