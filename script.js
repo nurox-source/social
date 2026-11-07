@@ -82,3 +82,40 @@ function signInWithGoogle() {
   showAlert('Connecting to Google Sign-In...', 'info');
   // Backend Integration Code goes here
 }
+// Firebase SDK Imports (ES Module)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+// Your web app's Firebase configuration (Firebase কনসোল থেকে পাওয়া)
+const firebaseConfig = {
+  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  authDomain: "social-app-6cffa.firebaseapp.com",
+  projectId: "social-app-6cffa",
+  storageBucket: "social-app-6cffa.appspot.com",
+  messagingSenderId: "880716821433",
+  appId: "1:880716821433:web:714ce9a6df235643527c68",
+  measurementId: "G-NKQ7VWR565"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// Google Sign-In Trigger Function
+function signInWithGoogle() {
+  showAlert('Connecting to Google...', 'info');
+  
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
+      
+      // সফলভাবে লগইন হওয়ার পর চ্যাট পেজে পাঠাতে চাইলে:
+      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
+    })
+    .catch((error) => {
+      showAlert('Google Authentication Failed!', 'error');
+      console.error(error);
+    });
+}
