@@ -1,15 +1,15 @@
 // Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHWkOfaTuzl-e3a0l3ATxZxCBMjQfo",
+  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
-  storageBucket: "social-app-6cffa.firebasestorage.app",
+  storageBucket: "social-app-6cffa.appspot.com",
   messagingSenderId: "880716821433",
-  appId: "1:880716821433:web:5553763b63f91e11527c68",
-  measurementId: "G-LQGEGHVJL1"
+  appId: "1:880716821433:web:714ce9a6df235643527c68",
+  measurementId: "G-NKQ7VWR565"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -18,7 +18,19 @@ const provider = new GoogleAuthProvider();
 
 // DOM Loaded & Event Listeners Binding
 window.addEventListener('DOMContentLoaded', () => {
-  // Loading Screen Timer
+  // Check Redirect Result for Google Sign-In
+  getRedirectResult(auth)
+    .then((result) => {
+      if (result && result.user) {
+        showAlert(`Welcome ${result.user.displayName}! Redirecting...`, 'success');
+        setTimeout(() => { window.location.href = 'main.html'; }, 1000);
+      }
+    })
+    .catch((error) => {
+      showAlert('Google Authentication Failed!', 'error');
+      console.error(error);
+    });
+
   setTimeout(() => {
     const loadingScreen = document.getElementById('loading-screen');
     const authWrapper = document.getElementById('auth-wrapper');
@@ -32,17 +44,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }, 2200);
 
-  // Tab Switch Buttons Event Listeners
   const tabReg = document.getElementById('tab-register');
   const tabLog = document.getElementById('tab-login');
   if (tabReg) tabReg.addEventListener('click', () => switchForm('register'));
   if (tabLog) tabLog.addEventListener('click', () => switchForm('login'));
 
-  // Google Sign-In Button Event Listener
   const googleBtn = document.getElementById('google-btn');
   if (googleBtn) googleBtn.addEventListener('click', signInWithGoogle);
 
-  // Form Submits Event Listeners
   const loginForm = document.getElementById('login-form');
   if (loginForm) loginForm.addEventListener('submit', onLoginSubmit);
 
@@ -105,7 +114,7 @@ function onLoginSubmit(event) {
     });
 }
 
-// Register Submit Logic (৬+ অক্ষরের পাসওয়ার্ড চেক শুধু এখানে)
+// Register Submit Logic (৬+ অক্ষর পাসওয়ার্ড চেক)
 function onRegisterSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('reg-email').value;
@@ -134,9 +143,7 @@ function onRegisterSubmit(event) {
     });
 }
 
-// Google Sign-In Function (Redirect Method)
-import { signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+// Google Sign-In Function (Using Redirect to avoid Brave/Browser pop-up blocks)
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
   signInWithRedirect(auth, provider);
