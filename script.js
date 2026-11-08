@@ -134,18 +134,10 @@ function onRegisterSubmit(event) {
     });
 }
 
-// Google Sign-In Function
+// Google Sign-In Function (Redirect Method)
+import { signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
-  
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
-      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
-    })
-    .catch((error) => {
-      showAlert('Google Authentication Failed!', 'error');
-      console.error(error);
-    });
+  signInWithRedirect(auth, provider);
 }
