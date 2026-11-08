@@ -1,40 +1,48 @@
-// Firebase SDK Imports (ES Module)
+// Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getAuth, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// ফায়ারবেস কনসোল থেকে নেওয়া কনফিগারেশন
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHWkOfaTuzl-e3a0l3ATxZxCBMjQfo",
+  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
   storageBucket: "social-app-6cffa.appspot.com",
   messagingSenderId: "880716821433",
-  appId: "1:880716821433:web:714ce9a6df235643527c68",
-  measurementId: "G-NKQ7VWR565"
+  appId: "1:880716821433:web:714ce9a6df235643527c68"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
 
-// Auto Login Session Check
+// Discord Configuration
+const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; // এখানে আপনার Discord Client ID বসান
+const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname.replace('rglg.html', 'main.html'));
+
+// Session Verification on Load
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    if (window.location.pathname.includes('rglg.html') || window.location.pathname.endsWith('/')) {
-      window.location.href = 'main.html';
-    }
+    redirectToDashboard();
   }
 });
 
-// DOM Loaded & Event Listeners
+if (localStorage.getItem('discord_token')) {
+  redirectToDashboard();
+}
+
+function redirectToDashboard() {
+  if (window.location.pathname.includes('rglg.html') || window.location.pathname.endsWith('/')) {
+    window.location.href = 'main.html';
+  }
+}
+
+// DOM Event Listeners Initialization
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const loadingScreen = document.getElementById('loading-screen');
@@ -47,15 +55,15 @@ window.addEventListener('DOMContentLoaded', () => {
         authWrapper.classList.remove('hidden');
       }, 800);
     }
-  }, 2200);
+  }, 1200);
 
   const tabRegister = document.getElementById('tab-register');
   const tabLogin = document.getElementById('tab-login');
   if (tabRegister) tabRegister.addEventListener('click', () => switchForm('register'));
   if (tabLogin) tabLogin.addEventListener('click', () => switchForm('login'));
 
-  const googleBtn = document.getElementById('google-btn');
-  if (googleBtn) googleBtn.addEventListener('click', signInWithGoogle);
+  const discordBtn = document.getElementById('discord-btn');
+  if (discordBtn) discordBtn.addEventListener('click', signInWithDiscord);
 
   const loginForm = document.getElementById('login-form');
   if (loginForm) loginForm.addEventListener('submit', onLoginSubmit);
@@ -64,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (registerForm) registerForm.addEventListener('submit', onRegisterSubmit);
 });
 
-// Custom Alert Box
+// Toast Alert System
 function showAlert(message, type = 'info') {
   const alertBox = document.getElementById('alert-box');
   const alertMsg = document.getElementById('alert-message');
@@ -79,7 +87,7 @@ function showAlert(message, type = 'info') {
   }, 3000);
 }
 
-// Tab Switcher
+// Tab Switching Mechanism
 function switchForm(tabName) {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
@@ -111,15 +119,15 @@ function onLoginSubmit(event) {
 
   signInWithEmailAndPassword(auth, email, pass)
     .then(() => {
-      showAlert('Login successful! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
+      showAlert('Login successful!', 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1000);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
     });
 }
 
-// Register Handler
+// Registration Handler
 function onRegisterSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('reg-email').value;
@@ -135,26 +143,17 @@ function onRegisterSubmit(event) {
 
   createUserWithEmailAndPassword(auth, email, pass)
     .then(() => {
-      showAlert('Registration successful! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
+      showAlert('Account created successfully!', 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1000);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
     });
 }
 
-// Google Sign-In Handler
-function signInWithGoogle() {
-  showAlert('Connecting to Google...', 'info');
-  
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
-      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
-    })
-    .catch((error) => {
-      showAlert('Google Authentication Failed!', 'error');
-      console.error(error);
-    });
+// Discord Sign-In OAuth Flow
+function signInWithDiscord() {
+  showAlert('Redirecting to Discord...', 'info');
+  const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=identify+email`;
+  window.location.href = discordAuthUrl;
 }
