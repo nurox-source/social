@@ -1,9 +1,9 @@
 // Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  apiKey: "আপনার_ফায়ারবেস_কনসোল_থেকে_সঠিক_API_KEY_এখানে_দিন",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
   storageBucket: "social-app-6cffa.appspot.com",
@@ -16,21 +16,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+// Check if user is already logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = 'main.html';
+  }
+});
+
 // DOM Loaded & Event Listeners Binding
 window.addEventListener('DOMContentLoaded', () => {
-  // Check Redirect Result for Google Sign-In
-  getRedirectResult(auth)
-    .then((result) => {
-      if (result && result.user) {
-        showAlert(`Welcome ${result.user.displayName}! Redirecting...`, 'success');
-        setTimeout(() => { window.location.href = 'main.html'; }, 1000);
-      }
-    })
-    .catch((error) => {
-      showAlert('Google Authentication Failed!', 'error');
-      console.error(error);
-    });
-
   setTimeout(() => {
     const loadingScreen = document.getElementById('loading-screen');
     const authWrapper = document.getElementById('auth-wrapper');
@@ -107,7 +101,7 @@ function onLoginSubmit(event) {
   signInWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       showAlert('Login successful! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
+      setTimeout(() => { window.location.href = 'main.html'; }, 1000);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
@@ -143,8 +137,18 @@ function onRegisterSubmit(event) {
     });
 }
 
-// Google Sign-In Function (Using Redirect to avoid Brave/Browser pop-up blocks)
+// Google Sign-In Function (Using Popup with proper fallback)
 function signInWithGoogle() {
   showAlert('Connecting to Google...', 'info');
-  signInWithRedirect(auth, provider);
+  
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
+      setTimeout(() => { window.location.href = 'main.html'; }, 1000);
+    })
+    .catch((error) => {
+      showAlert('Google Authentication Failed!', 'error');
+      console.error(error);
+    });
 }
