@@ -82,17 +82,3 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
-```[cite: 18]
-
----
-
-### ডিসকর্ড লগইনে "Invalid" কেন আসে?
-ডিসকর্ড বাটনে ক্লিক করার পর যদি **`Invalid OAuth2 Redirect URI`** বা এ জাতীয় কোনো এরর আসে, তার কারণ হলো ডিসকর্ড ডেভেলপার পোর্টালে আপনার গিটহাব পেজের লিঙ্কটি Redirects হিসেবে যুক্ত করা নেই। 
-
-এটি ঠিক করার ছোট্ট নিয়ম:
-1. [Discord Developer Portal](https://discord.com/developers/applications)-এ আপনার অ্যাপ্লিকেশনে যান।
-2. বাঁ পাশ থেকে **OAuth2** ট্যাবে ক্লিক করুন।
-3. নিচের দিকে **Redirects** সেクションে **Add Redirect** এ ক্লিক করে হুবহু আপনার লাইভ ওয়েবসাইটের লিঙ্কটি দিয়ে দিন (যেমন: `[https://nurox-source.github.io/social/main.html](https://nurox-source.github.io/social/main.html)`)।
-4. এরপর নিচ থেকে **Save Changes** করে দিন। 
-
-এটি করলেই ডিসকর্ড পপ-আপ বা রিডাইরেক্ট একদম নিখুঁতভাবে কাজ করা শুরু করবে!
