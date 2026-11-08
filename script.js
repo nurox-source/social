@@ -101,6 +101,11 @@ function onRegisterSubmit(event) {
   const pass = document.getElementById('reg-password').value;
   const confirmPass = document.getElementById('reg-confirm-password').value;
 
+  if (pass.length < 6) {
+    showAlert('Password must be at least 6 characters long!', 'error');
+    return;
+  }
+
   if (pass !== confirmPass) {
     showAlert('Passwords do not match!', 'error');
     return;
