@@ -149,4 +149,3 @@ function signInWithGoogle() {
       console.error(error);
     });
 }
-```[cite: 15]
