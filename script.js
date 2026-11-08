@@ -10,7 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  apiKey: "এখানে_আপনার_আসল_API_Key_টি_বসিয়ে_দিন",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
   storageBucket: "social-app-6cffa.appspot.com",
