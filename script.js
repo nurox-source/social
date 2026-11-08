@@ -11,7 +11,7 @@ import {
 
 // ফায়ারবেস কনসোল থেকে নেওয়া কনফিগারেশন
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
+  apiKey: "AIzaSyBeHQHWkOfaTuzl-e3a0l3ATxZxCBMjQfo",
   authDomain: "social-app-6cffa.firebaseapp.com",
   projectId: "social-app-6cffa",
   storageBucket: "social-app-6cffa.appspot.com",
