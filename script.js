@@ -1,6 +1,6 @@
 // Firebase SDK Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBeHQHMKOfatuzl-e3a9l3ATxZxCMhJQFo",
@@ -14,7 +14,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+
+// Discord OAuth Configuration
+// এখানে আপনার Discord Developer Portal থেকে প্রাপ্ত Client ID বসিয়ে দেবেন
+const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; 
+const REDIRECT_URI = encodeURIComponent(window.location.origin + '/social/main.html');
 
 // DOM Loaded & Event Listeners Binding
 window.addEventListener('DOMContentLoaded', () => {
@@ -34,8 +38,8 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tab-register').addEventListener('click', () => switchForm('register'));
   document.getElementById('tab-login').addEventListener('click', () => switchForm('login'));
 
-  // Google Sign-In Button Event Listener
-  document.getElementById('google-btn').addEventListener('click', signInWithGoogle);
+  // Discord Sign-In Button Event Listener
+  document.getElementById('discord-btn').addEventListener('click', signInWithDiscord);
 
   // Form Submits Event Listeners
   document.getElementById('login-form').addEventListener('submit', onLoginSubmit);
@@ -87,14 +91,14 @@ function onLoginSubmit(event) {
   signInWithEmailAndPassword(auth, email, pass)
     .then((userCredential) => {
       showAlert('Login successful! Redirecting...', 'success');
-      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
+      setTimeout(() => { window.location.href = 'main.html'; }, 1200);
     })
     .catch((error) => {
       showAlert(error.message, 'error');
     });
 }
 
-// Register Submit Logic
+// Register Submit Logic ( ৬+ অক্ষরের পাসওয়ার্ড চেক শুধু রেজিস্টার ফর্মে )
 function onRegisterSubmit(event) {
   event.preventDefault();
   const email = document.getElementById('reg-email').value;
@@ -123,18 +127,11 @@ function onRegisterSubmit(event) {
     });
 }
 
-// Google Sign-In Function
-function signInWithGoogle() {
-  showAlert('Connecting to Google...', 'info');
-  
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      showAlert(`Welcome ${user.displayName}! Redirecting...`, 'success');
-      // setTimeout(() => { window.location.href = 'chat.html'; }, 1500);
-    })
-    .catch((error) => {
-      showAlert('Google Authentication Failed!', 'error');
-      console.error(error);
-    });
+// Discord Sign-In Flow Function
+function signInWithDiscord() {
+  showAlert('Redirecting to Discord...', 'info');
+  const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=identify+email`;
+  setTimeout(() => {
+    window.location.href = discordAuthUrl;
+  }, 800);
 }
