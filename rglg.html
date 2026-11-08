@@ -4,48 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOCIAL - Register & Login</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="script.css">
 </head>
 <body>
 
-  <!-- Loading Screen -->
-  <div id="loading-screen" class="loading-screen">
-    <div class="spinner"></div>
-    <p>Loading SOCIAL...</p>
+  <!-- Loading Animation Screen -->
+  <div id="loading-screen">
+    <div class="loader-content">
+      <div class="glow-ring"></div>
+      <div class="loader-logo">SOCIAL</div>
+      <div class="loader-text">Loading your space...</div>
+    </div>
   </div>
 
-  <!-- Alert Toast Notification -->
+  <!-- Central Alert Toast Box -->
   <div id="alert-box" class="alert-box hidden">
     <span id="alert-message"></span>
   </div>
 
-  <!-- Main Auth Card -->
+  <!-- Main Authentication Card Wrapper -->
   <div id="auth-wrapper" class="auth-wrapper hidden">
     <div class="auth-card">
       <h1 class="brand-logo">SOCIAL</h1>
       <p class="brand-tagline">Connect with the world</p>
 
       <!-- Tabs Switcher -->
-      <div class="tab-box">
-        <button id="tab-register" class="tab-btn active">Register</button>
-        <button id="tab-login" class="tab-btn">Login</button>
+      <div class="tab-switch">
+        <button id="tab-register" class="active">Register</button>
+        <button id="tab-login">Login</button>
       </div>
 
       <!-- Register Form -->
-      <form id="register-form" class="auth-form">
-        <h3 class="form-title">Create Account</h3>
-        <input type="text" id="reg-name" placeholder="Full Name" required>
-        <input type="email" id="reg-email" placeholder="Email Address" required>
-        <input type="password" id="reg-password" placeholder="Password" required>
-        <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
+      <form id="register-form" class="form-content">
+        <h2>Create Account</h2>
+        <div class="input-field">
+          <input type="text" id="reg-name" placeholder="Full Name" required>
+        </div>
+        <div class="input-field">
+          <input type="email" id="reg-email" placeholder="Email Address" required>
+        </div>
+        <div class="input-field">
+          <input type="password" id="reg-password" placeholder="Password" required>
+        </div>
+        <div class="input-field">
+          <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
+        </div>
         <button type="submit" class="action-btn">Register</button>
       </form>
 
       <!-- Login Form -->
-      <form id="login-form" class="auth-form hidden">
-        <h3 class="form-title">Welcome Back</h3>
-        <input type="email" id="login-email" placeholder="Email Address" required>
-        <input type="password" id="login-password" placeholder="Password" required>
+      <form id="login-form" class="form-content hidden">
+        <h2>Welcome Back</h2>
+        <div class="input-field">
+          <input type="email" id="login-email" placeholder="Email Address" required>
+        </div>
+        <div class="input-field">
+          <input type="password" id="login-password" placeholder="Password" required>
+        </div>
         <button type="submit" class="action-btn">Login</button>
       </form>
 
@@ -53,9 +68,9 @@
         <span>OR</span>
       </div>
 
-      <!-- Discord Sign-In Button -->
-      <button id="discord-btn" class="action-btn" style="background: #5865F2; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 10px;">
-        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor">
+      <!-- Continue with Discord Button -->
+      <button id="discord-btn" class="google-btn" style="background: #5865F2; border-color: #5865F2;">
+        <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="currentColor">
           <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.91,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,45.91,96.12,53,91.08,65.69,84.69,65.69Z"/>
         </svg>
         Continue with Discord
@@ -67,3 +82,17 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
+```[cite: 18]
+
+---
+
+### ডিসকর্ড লগইনে "Invalid" কেন আসে?
+ডিসকর্ড বাটনে ক্লিক করার পর যদি **`Invalid OAuth2 Redirect URI`** বা এ জাতীয় কোনো এরর আসে, তার কারণ হলো ডিসকর্ড ডেভেলপার পোর্টালে আপনার গিটহাব পেজের লিঙ্কটি Redirects হিসেবে যুক্ত করা নেই। 
+
+এটি ঠিক করার ছোট্ট নিয়ম:
+1. [Discord Developer Portal](https://discord.com/developers/applications)-এ আপনার অ্যাপ্লিকেশনে যান।
+2. বাঁ পাশ থেকে **OAuth2** ট্যাবে ক্লিক করুন।
+3. নিচের দিকে **Redirects** সেクションে **Add Redirect** এ ক্লিক করে হুবহু আপনার লাইভ ওয়েবসাইটের লিঙ্কটি দিয়ে দিন (যেমন: `[https://nurox-source.github.io/social/main.html](https://nurox-source.github.io/social/main.html)`)।
+4. এরপর নিচ থেকে **Save Changes** করে দিন। 
+
+এটি করলেই ডিসকর্ড পপ-আপ বা রিডাইরেক্ট একদম নিখুঁতভাবে কাজ করা শুরু করবে!
